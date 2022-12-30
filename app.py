@@ -2,21 +2,17 @@ import cv2
 
 MODEL_PATH = './resources/models/face_detection.xml'
 INPUT_PATH = './resources/photos/people-wedding.jpeg'
-face_cascade = None
-faces = None
-image = None
 
 
 def setupModelAndInput(input, model):
     ''' Takes input image path and model data path and updates face_cascade and image variables. '''
 
-    global face_cascade
-    global image
     face_cascade = cv2.CascadeClassifier(model)
     image = cv2.imread(input)
+    return face_cascade, image
 
 
-def detectFaces(image):
+def detectFaces(image, face_cascade):
     ''' Returns the detected faces. '''
 
     if face_cascade != None:
@@ -35,6 +31,6 @@ def drawBoxAroundFaces(faces):
         print('input cannot be None')
 
 
-setupModelAndInput(INPUT_PATH, MODEL_PATH)
-faces = detectFaces(image)
+face_cascade, image = setupModelAndInput(INPUT_PATH, MODEL_PATH)
+faces = detectFaces(image, face_cascade)
 drawBoxAroundFaces(faces)
